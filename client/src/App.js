@@ -114,7 +114,7 @@ function App() {
 
     try {
       // 2) Send message to the server
-      const res = await fetch("http://localhost:3080/", {
+      const res = await fetch("http://localhost:3080/api/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 

@@ -18,6 +18,11 @@ const port = 3080;
 app.use(cors());
 app.use(express.json());
 
+// Simple GET route for testing
+app.get("/", (req, res) => {
+  res.json({ message: "AI Girlfriend API is running!" });
+});
+
 app.post("/api/", async (req, res) => {
   const { message, character } = req.body;
 
