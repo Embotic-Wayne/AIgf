@@ -27,7 +27,7 @@
 .header-content {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   max-width: 100%;
   gap: 20px;
 }
@@ -92,6 +92,71 @@
   font-weight: 600;
   color: white;
   text-align: center;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+  white-space: nowrap;
+}
+
+/* Sidebar Character Selector */
+.character-selector-sidebar {
+  margin: 20px 0;
+  padding: 16px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.character-selector-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #ff6b9d;
+  margin: 0 0 12px 0;
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.character-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.character-option-sidebar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: rgba(45, 45, 70, 0.6);
+  border: 2px solid transparent;
+  position: relative;
+}
+
+.character-option-sidebar:hover {
+  background: rgba(255, 107, 157, 0.2);
+  border-color: rgba(255, 107, 157, 0.4);
+  transform: translateY(-1px);
+}
+
+.character-option-sidebar.active {
+  background: rgba(255, 107, 157, 0.3);
+  border-color: #ff6b9d;
+  box-shadow: 0 4px 12px rgba(255, 107, 157, 0.3);
+}
+
+.character-avatar-sidebar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.character-name-sidebar {
+  font-size: 14px;
+  font-weight: 600;
+  color: white;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
   white-space: nowrap;
 }
@@ -495,7 +560,7 @@
 }
 
 .chat-message:not(.chatgpt) {
-  background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+  background: rgba(26, 26, 46, 0.95);
   color: white;
   border-radius: 20px 20px 5px 20px;
   padding: 20px;
@@ -515,7 +580,7 @@
   height: 0;
   border-style: solid;
   border-width: 15px 0 0 15px;
-  border-color: transparent transparent transparent #4a5568;
+  border-color: transparent transparent transparent rgba(26, 26, 46, 0.95);
   transform: rotate(45deg);
 }
 
@@ -545,7 +610,7 @@
   position: relative;
 }
 
-.avatar-wrapper::before {
+.chatgpt .avatar-wrapper::before {
   content: '';
   position: absolute;
   top: -5px;
@@ -568,6 +633,12 @@
   height: 100%;
   object-fit: cover;
   display: block;
+}
+
+/* User avatar styling - no border */
+.chat-message:not(.chatgpt) .avatar-img {
+  border: none;
+  border-radius: 50%;
 }
 
 .character-name {

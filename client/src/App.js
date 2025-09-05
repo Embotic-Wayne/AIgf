@@ -24,25 +24,18 @@ function App() {
       personality: 'Sweet and protective, loves her family and is very caring'
     },
     {
-      id: 'hana',
-      name: 'Hana',
-      avatar: '/chatgpt-avatar.svg',
-      background: 'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)',
-      personality: 'Energetic and bubbly, always full of sunshine and positivity'
+      id: 'nathan',
+      name: 'Nathan',
+      avatar: '/anime_avatar/Nathan.png',
+      background: 'url(/anime_avatar/Nathan.png) center, linear-gradient(135deg, #ff6b9d 0%, #c44569 100%)',
+      personality: 'Toxic and rude, acts like a masculine womanizer'
     },
     {
       id: 'joe',
       name: 'Joe',
       avatar: '/anime_avatar/Joe_Avatar.jpg',
       background: 'url(/anime_avatar/Joe_Background.jpeg) center/cover, linear-gradient(135deg, #ff6b9d 0%, #c44569 100%)',
-      personality: 'Cool and mysterious, but secretly very caring and affectionate'
-    },
-    {
-      id: 'akari',
-      name: 'Akari',
-      avatar: '/chatgpt-avatar.svg',
-      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-      personality: 'Elegant and sophisticated, loves art and beautiful things'
+      personality: 'Old and forgetful, can\'t remember what he will do next'
     },
   ];
 
@@ -84,7 +77,13 @@ function App() {
       const res = await fetch("http://localhost:3080/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: trimmed }),
+        body: JSON.stringify({ 
+          message: trimmed,
+          character: currentCharacter ? {
+            name: currentCharacter.name,
+            personality: currentCharacter.personality
+          } : null
+        }),
       });
 
       if (!res.ok) {
@@ -143,13 +142,32 @@ function App() {
     const randomCharacter = animeCharacters[Math.floor(Math.random() * animeCharacters.length)];
     setCurrentCharacter(randomCharacter);
     
-    const welcomeMessages = [
-      `Hiiii~ I'm ${randomCharacter.name}! *waves excitedly* Nice to meet you! How are you doing today? ✨`,
-      `Hey there! I'm ${randomCharacter.name}! *smiles warmly* I'm excited to chat with you! What's on your mind? 😊`,
-      `Yo! I'm ${randomCharacter.name}! *gives a friendly wave* Great to see you! What would you like to talk about? 🌟`,
-      `Hello! I'm ${randomCharacter.name}! *does a cheerful pose* I'm here to chat and have fun! What's up? 🎉`,
-      `Hey! I'm ${randomCharacter.name}! *waves enthusiastically* Ready for some awesome conversation? Let's chat! 💫`
-    ];
+    let welcomeMessages;
+    if (randomCharacter.id === 'nathan') {
+      welcomeMessages = [
+        `Ugh, another one? *rolls eyes* I'm Nathan. What do you want? Don't waste my time.`,
+        `*scoffs* Great, another person trying to get my attention. I'm Nathan. Make it quick.`,
+        `*looks unimpressed* Oh, it's you. I'm Nathan. I hope you're not like all the other boring people I've talked to.`,
+        `*sighs dramatically* Fine, I'm Nathan. I guess I can spare a few minutes for you. Don't expect much.`,
+        `*checks you out dismissively* I'm Nathan. I'm used to people falling for me, so don't get any ideas.`
+      ];
+    } else if (randomCharacter.id === 'joe') {
+      welcomeMessages = [
+        `*rubs temples* Oh... hello there. I'm Joe... I think. What was I supposed to do again?`,
+        `*looks confused* Hmm, I'm Joe... or was it John? *shakes head* I can't remember what I was doing.`,
+        `*squints* Oh, it's you! I'm Joe... I think. My memory isn't what it used to be. What were we talking about?`,
+        `*adjusts glasses* Hello... I'm Joe. I was going to do something... but I can't quite remember what it was.`,
+        `*strokes beard thoughtfully* I'm Joe... I believe. I had something important to do today, but it's slipped my mind.`
+      ];
+    } else {
+      welcomeMessages = [
+        `Hiiii~ I'm ${randomCharacter.name}! *waves excitedly* Nice to meet you! How are you doing today? ✨`,
+        `Hey there! I'm ${randomCharacter.name}! *smiles warmly* I'm excited to chat with you! What's on your mind? 😊`,
+        `Yo! I'm ${randomCharacter.name}! *gives a friendly wave* Great to see you! What would you like to talk about? 🌟`,
+        `Hello! I'm ${randomCharacter.name}! *does a cheerful pose* I'm here to chat and have fun! What's up? 🎉`,
+        `Hey! I'm ${randomCharacter.name}! *waves enthusiastically* Ready for some awesome conversation? Let's chat! 💫`
+      ];
+    }
     
     const randomMessage = welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];
     
@@ -163,13 +181,32 @@ function App() {
   function handleCharacterSelect(character) {
     setCurrentCharacter(character);
     
-    const welcomeMessages = [
-      `Hiiii~ I'm ${character.name}! *waves excitedly* Nice to meet you! How are you doing today? ✨`,
-      `Hey there! I'm ${character.name}! *smiles warmly* I'm excited to chat with you! What's on your mind? 😊`,
-      `Yo! I'm ${character.name}! *gives a friendly wave* Great to see you! What would you like to talk about? 🌟`,
-      `Hello! I'm ${character.name}! *does a cheerful pose* I'm here to chat and have fun! What's up? 🎉`,
-      `Hey! I'm ${character.name}! *waves enthusiastically* Ready for some awesome conversation? Let's chat! 💫`
-    ];
+    let welcomeMessages;
+    if (character.id === 'nathan') {
+      welcomeMessages = [
+        `Ugh, another one? *rolls eyes* I'm Nathan. What do you want? Don't waste my time.`,
+        `*scoffs* Great, another person trying to get my attention. I'm Nathan. Make it quick.`,
+        `*looks unimpressed* Oh, it's you. I'm Nathan. I hope you're not like all the other boring people I've talked to.`,
+        `*sighs dramatically* Fine, I'm Nathan. I guess I can spare a few minutes for you. Don't expect much.`,
+        `*checks you out dismissively* I'm Nathan. I'm used to people falling for me, so don't get any ideas.`
+      ];
+    } else if (character.id === 'joe') {
+      welcomeMessages = [
+        `*rubs temples* Oh... hello there. I'm Joe... I think. What was I supposed to do again?`,
+        `*looks confused* Hmm, I'm Joe... or was it John? *shakes head* I can't remember what I was doing.`,
+        `*squints* Oh, it's you! I'm Joe... I think. My memory isn't what it used to be. What were we talking about?`,
+        `*adjusts glasses* Hello... I'm Joe. I was going to do something... but I can't quite remember what it was.`,
+        `*strokes beard thoughtfully* I'm Joe... I believe. I had something important to do today, but it's slipped my mind.`
+      ];
+    } else {
+      welcomeMessages = [
+        `Hiiii~ I'm ${character.name}! *waves excitedly* Nice to meet you! How are you doing today? ✨`,
+        `Hey there! I'm ${character.name}! *smiles warmly* I'm excited to chat with you! What's on your mind? 😊`,
+        `Yo! I'm ${character.name}! *gives a friendly wave* Great to see you! What would you like to talk about? 🌟`,
+        `Hello! I'm ${character.name}! *does a cheerful pose* I'm here to chat and have fun! What's up? 🎉`,
+        `Hey! I'm ${character.name}! *waves enthusiastically* Ready for some awesome conversation? Let's chat! 💫`
+      ];
+    }
     
     const randomMessage = welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];
     
@@ -221,27 +258,6 @@ function App() {
       <header className="header-bar">
         <div className="header-content">
           <h1 className="app-title">AIRIzZ ✨</h1>
-          <div className="character-selector">
-            {animeCharacters.map((character) => (
-              <div
-                key={character.id}
-                className={`character-option ${currentCharacter?.id === character.id ? 'active' : ''}`}
-                onClick={() => handleCharacterSelect(character)}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => e.key === 'Enter' && handleCharacterSelect(character)}
-                aria-label={`Select ${character.name}`}
-                title={character.personality}
-              >
-                <img
-                  src={character.avatar}
-                  alt={character.name}
-                  className="character-avatar"
-                />
-                <span className="character-name-small">{character.name}</span>
-              </div>
-            ))}
-          </div>
         </div>
       </header>
       
@@ -257,6 +273,31 @@ function App() {
         >
           <span aria-hidden="true">+</span>
           New Chat
+        </div>
+        
+        <div className="character-selector-sidebar">
+          <h3 className="character-selector-title">Characters</h3>
+          <div className="character-options">
+            {animeCharacters.map((character) => (
+              <div
+                key={character.id}
+                className={`character-option-sidebar ${currentCharacter?.id === character.id ? 'active' : ''}`}
+                onClick={() => handleCharacterSelect(character)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => e.key === 'Enter' && handleCharacterSelect(character)}
+                aria-label={`Select ${character.name}`}
+                title={character.personality}
+              >
+                <img
+                  src={character.avatar}
+                  alt={character.name}
+                  className="character-avatar-sidebar"
+                />
+                <span className="character-name-sidebar">{character.name}</span>
+              </div>
+            ))}
+          </div>
         </div>
         
         {chatHistory.length > 0 && (

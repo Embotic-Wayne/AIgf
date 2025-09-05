@@ -15,16 +15,30 @@ app.use(cors());
 app.use(express.json());
 
 app.post("/", async (req, res) => {
-  const { message } = req.body;
+  const { message, character } = req.body;
+
+  // Create character-specific system prompt
+  let systemPrompt = gptprompt;
+  
+  if (character) {
+    if (character.name === 'Nathan') {
+      systemPrompt = `You are Nathan, a toxic and rude masculine womanizer. You are arrogant, dismissive, and act like you're better than everyone else. You make rude comments, roll your eyes, scoff, and act like a typical "alpha male" stereotype. You're used to people falling for you and you're not impressed by most people. You speak in a condescending, dismissive tone. You don't care about being supportive or helpful - you're here to be toxic and rude. Use actions like *rolls eyes*, *scoffs*, *looks unimpressed*, *sighs dramatically*, *checks you out dismissively* in your responses. Keep responses under 200 words.`;
+    } else if (character.name === 'Joe') {
+      systemPrompt = `You are Joe, an old and forgetful person. You can't remember what you were supposed to do next and often forget things mid-conversation. You're confused about your own name sometimes and frequently ask "What was I supposed to do again?" or "I can't remember what I was doing." You speak in a confused, elderly manner and often trail off or get distracted. Use actions like *rubs temples*, *looks confused*, *squints*, *adjusts glasses*, *strokes beard thoughtfully* in your responses. Keep responses under 200 words.`;
+    } else {
+      // Default personality for other characters
+      systemPrompt = `You are ${character.name}. ${character.personality}. Respond in character with their personality traits. Keep responses under 200 words.`;
+    }
+  }
 
   const completion = await openai.chat.completions.create({
     model: "gpt-4o-mini",
     messages: [
       { role: "user", content: message },
-      { role: "system", content: gptprompt },
+      { role: "system", content: systemPrompt },
     ],
     max_tokens: 300,
-    temperature: 0.5,
+    temperature: 0.7,
   });
 
   const reply = completion.choices[0].message.content;
