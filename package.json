@@ -13,5 +13,8 @@
     "dotenv": "^17.2.2",
     "express": "^5.1.0",
     "openai": "^5.19.1"
+  },
+  "devDependencies": {
+    "vercel": "^47.0.5"
   }
 }
