@@ -3,16 +3,6 @@ import "./App.css";
 import { useState, useRef, useEffect } from "react";
 
 function App() {
-  const [input, setInput] = useState("");
-  const [chatLog, setChatLog] = useState([
-    { user: "gpt", message: "Hello! I'm here to support you with a warm, non-judgmental approach. How are you feeling today?", timestamp: new Date() },
-  ]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [chatHistory, setChatHistory] = useState([]);
-  const [currentChatId, setCurrentChatId] = useState(null);
-  const [currentCharacter, setCurrentCharacter] = useState(null);
-  const chatLogRef = useRef(null);
 
   // Anime characters with their backgrounds and personalities
   const animeCharacters = [
@@ -39,6 +29,21 @@ function App() {
     },
   ];
 
+  const [input, setInput] = useState("");
+  const [chatLog, setChatLog] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [chatHistory, setChatHistory] = useState([]);
+  const [currentChatId, setCurrentChatId] = useState(null);
+  const [currentCharacter, setCurrentCharacter] = useState(() => {
+    // Select a random character at startup
+    const randomCharacter = animeCharacters[Math.floor(Math.random() * animeCharacters.length)];
+    return randomCharacter;
+  });
+  const chatLogRef = useRef(null);
+
+
+
   // Load chat history from localStorage on component mount
   useEffect(() => {
     const savedHistory = localStorage.getItem('chatHistory');
@@ -46,6 +51,41 @@ function App() {
       setChatHistory(JSON.parse(savedHistory));
     }
   }, []);
+
+  // Generate initial welcome message when component mounts
+  useEffect(() => {
+    if (currentCharacter && chatLog.length === 0) {
+      let welcomeMessages;
+      if (currentCharacter.id === 'nathan') {
+        welcomeMessages = [
+          `Ugh, another one? *rolls eyes* I'm Nathan. What do you want? Don't waste my time.`,
+          `*scoffs* Great, another person trying to get my attention. I'm Nathan. Make it quick.`,
+          `*looks unimpressed* Oh, it's you. I'm Nathan. I hope you're not like all the other boring people I've talked to.`,
+          `*sighs dramatically* Fine, I'm Nathan. I guess I can spare a few minutes for you. Don't expect much.`,
+          `*checks you out dismissively* I'm Nathan. I'm used to people falling for me, so don't get any ideas.`
+        ];
+      } else if (currentCharacter.id === 'joe') {
+        welcomeMessages = [
+          `*rubs temples* Oh... hello there. I'm Joe... I think. What was I supposed to do again?`,
+          `*looks confused* Hmm, I'm Joe... or was it John? *shakes head* I can't remember what I was doing.`,
+          `*squints* Oh, it's you! I'm Joe... I think. My memory isn't what it used to be. What were we talking about?`,
+          `*adjusts glasses* Hello... I'm Joe. I was going to do something... but I can't quite remember what it was.`,
+          `*strokes beard thoughtfully* I'm Joe... I believe. I had something important to do today, but it's slipped my mind.`
+        ];
+      } else {
+        welcomeMessages = [
+          `Hiiii~ I'm ${currentCharacter.name}! *waves excitedly* Nice to meet you! How are you doing today?`,
+          `Hey there! I'm ${currentCharacter.name}! *smiles warmly* I'm excited to chat with you! What's on your mind?`,
+          `Yo! I'm ${currentCharacter.name}! *gives a friendly wave* Great to see you! What would you like to talk about?`,
+          `Hello! I'm ${currentCharacter.name}! *does a cheerful pose* I'm here to chat and have fun! What's up?`,
+          `Hey! I'm ${currentCharacter.name}! *waves enthusiastically* Ready for some awesome conversation? Let's chat!`
+        ];
+      }
+      
+      const randomMessage = welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];
+      setChatLog([{ user: "gpt", message: randomMessage, timestamp: new Date() }]);
+    }
+  }, [currentCharacter, chatLog.length]);
 
   // Auto-scroll to bottom when new messages are added
   useEffect(() => {
@@ -161,11 +201,11 @@ function App() {
       ];
     } else {
       welcomeMessages = [
-        `Hiiii~ I'm ${randomCharacter.name}! *waves excitedly* Nice to meet you! How are you doing today? ✨`,
-        `Hey there! I'm ${randomCharacter.name}! *smiles warmly* I'm excited to chat with you! What's on your mind? 😊`,
-        `Yo! I'm ${randomCharacter.name}! *gives a friendly wave* Great to see you! What would you like to talk about? 🌟`,
-        `Hello! I'm ${randomCharacter.name}! *does a cheerful pose* I'm here to chat and have fun! What's up? 🎉`,
-        `Hey! I'm ${randomCharacter.name}! *waves enthusiastically* Ready for some awesome conversation? Let's chat! 💫`
+        `Hiiii~ I'm ${randomCharacter.name}! *waves excitedly* Nice to meet you! How are you doing today?`,
+        `Hey there! I'm ${randomCharacter.name}! *smiles warmly* I'm excited to chat with you! What's on your mind?`,
+        `Yo! I'm ${randomCharacter.name}! *gives a friendly wave* Great to see you! What would you like to talk about?`,
+        `Hello! I'm ${randomCharacter.name}! *does a cheerful pose* I'm here to chat and have fun! What's up?`,
+        `Hey! I'm ${randomCharacter.name}! *waves enthusiastically* Ready for some awesome conversation? Let's chat!`
       ];
     }
     
@@ -200,11 +240,11 @@ function App() {
       ];
     } else {
       welcomeMessages = [
-        `Hiiii~ I'm ${character.name}! *waves excitedly* Nice to meet you! How are you doing today? ✨`,
-        `Hey there! I'm ${character.name}! *smiles warmly* I'm excited to chat with you! What's on your mind? 😊`,
-        `Yo! I'm ${character.name}! *gives a friendly wave* Great to see you! What would you like to talk about? 🌟`,
-        `Hello! I'm ${character.name}! *does a cheerful pose* I'm here to chat and have fun! What's up? 🎉`,
-        `Hey! I'm ${character.name}! *waves enthusiastically* Ready for some awesome conversation? Let's chat! 💫`
+        `Hiiii~ I'm ${character.name}! *waves excitedly* Nice to meet you! How are you doing today?`,
+        `Hey there! I'm ${character.name}! *smiles warmly* I'm excited to chat with you! What's on your mind?`,
+        `Yo! I'm ${character.name}! *gives a friendly wave* Great to see you! What would you like to talk about?`,
+        `Hello! I'm ${character.name}! *does a cheerful pose* I'm here to chat and have fun! What's up?`,
+        `Hey! I'm ${character.name}! *waves enthusiastically* Ready for some awesome conversation? Let's chat!`
       ];
     }
     
@@ -255,11 +295,21 @@ function App() {
 
   return (
     <div className="App">
-      <header className="header-bar">
-        <div className="header-content">
-          <h1 className="app-title">AIRIzZ ✨</h1>
-        </div>
-      </header>
+              <header className="header-bar">
+          <div className="header-content">
+            <h1 
+              className="app-title" 
+              onClick={() => window.location.reload()}
+              style={{ cursor: 'pointer' }}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => e.key === 'Enter' && window.location.reload()}
+              aria-label="Refresh page"
+            >
+              AIRIzZ
+            </h1>
+          </div>
+        </header>
       
       <div className="main-content">
         <aside className="sidemenu" role="navigation" aria-label="Main navigation">
@@ -332,18 +382,6 @@ function App() {
           </div>
         )}
 
-        <div className="sidebar-bottom">
-          <div 
-            className="side-menu-button"
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => e.key === 'Enter' && console.log('About clicked')}
-            aria-label="About this application"
-          >
-            <span aria-hidden="true">ℹ️</span>
-            About
-          </div>
-        </div>
       </aside>
 
       <main 
@@ -384,7 +422,7 @@ function App() {
                   )}
                 </div>
                 <div className="message-content">
-                  <div className="message loading-dots" aria-live="polite">Thinking... ✨</div>
+                  <div className="message loading-dots" aria-live="polite">Thinking...</div>
                 </div>
               </div>
             </div>
@@ -404,7 +442,7 @@ function App() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               className="chat-input-textarea"
-              placeholder="Chat with your anime character... ✨"
+              placeholder="Chat with your anime character..."
               disabled={isLoading}
               aria-label="Type your message"
               aria-describedby={error ? "error-message" : undefined}
@@ -441,7 +479,7 @@ const ChatMessage = ({ message, currentCharacter }) => {
           <div className="avatar-wrapper">
             <img
               className="avatar-img"
-              src={isGpt ? (currentCharacter?.avatar || "/chatgpt-avatar.svg") : "/user-avatar.svg"}
+              src={isGpt ? (currentCharacter?.avatar || "/chatgpt-avatar.svg") : "/anime_avatar/Profile.jpg"}
               alt={isGpt ? (currentCharacter?.name || "Waifu") + " avatar" : "User avatar"}
             />
           </div>
