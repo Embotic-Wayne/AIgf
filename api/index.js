@@ -1,5 +1,4 @@
 import OpenAI from "openai";
-import cors from "cors";
 
 // Initialize OpenAI
 const openai = new OpenAI({
@@ -56,11 +55,14 @@ export default async function handler(req, res) {
     });
 
     const reply = completion.choices[0].message.content;
-    console.log(reply);
+    console.log('AI Response:', reply);
 
     res.status(200).json({ reply });
   } catch (error) {
-    console.error('Error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('Error in API function:', error);
+    res.status(500).json({ 
+      error: 'Internal server error',
+      details: error.message 
+    });
   }
 }
