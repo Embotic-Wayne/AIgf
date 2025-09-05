@@ -51,14 +51,6 @@ app.post("/api/", async (req, res) => {
   res.json({ reply });
 });
 
-// Serve static files from React build
-app.use(express.static('client/build'));
-
-// Serve React app for all other routes
-app.get('*', (req, res) => {
-  res.sendFile(new URL('client/build/index.html', import.meta.url).pathname);
-});
-
 // For Vercel serverless
 export default app;
 

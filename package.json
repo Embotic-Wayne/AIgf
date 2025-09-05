@@ -1,9 +1,12 @@
 {
   "name": "rizzyaiserver",
   "version": "1.0.0",
+  "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "build": "cd client && npm run build",
+    "dev": "concurrently \"npm start\" \"cd client && npm start\""
   },
   "author": "",
   "license": "ISC",
@@ -13,8 +16,5 @@
     "dotenv": "^17.2.2",
     "express": "^5.1.0",
     "openai": "^5.19.1"
-  },
-  "devDependencies": {
-    "vercel": "^47.0.5"
   }
 }
